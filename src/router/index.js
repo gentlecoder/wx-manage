@@ -4,19 +4,32 @@
  * 建议:
  * 1. 代码中路由统一使用name属性跳转(不使用path属性)
  */
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+// import Vue from 'vue'
+// import VueRouter from "vue-router";
 import http from '@/utils/httpRequest'
 import { isURL } from '@/utils/validate'
 import { clearLoginInfo } from '@/utils'
+import cookie from '@/utils/vue-cookie'
+import { createRouter, createWebHashHistory } from 'vue-router'
+// import { getCurrentInstance } from 'vue'
 
-Vue.use(VueRouter)
+// Vue.use(VueRouter);
 
 const _import = require('./import-views')
 // 全局路由(无需嵌套上左右整体布局)
 const globalRoutes = [
-  { path: '/404', component: () => import('@/views/common/404'), name: '404', meta: { title: '404未找到' } },
-  { path: '/login', component: () => import('@/views/common/login'), name: 'login', meta: { title: '登录' } }
+  {
+    path: '/404',
+    component: () => import('@/views/common/404'),
+    name: '404',
+    meta: { title: '404未找到' }
+  },
+  {
+    path: '/login',
+    component: () => import('@/views/common/login'),
+    name: 'login',
+    meta: { title: '登录' }
+  }
 ]
 
 // 主入口路由(需嵌套上左右整体布局)
@@ -31,11 +44,23 @@ const mainRoutes = {
     // 1. isTab: 是否通过tab展示内容, true: 是, false: 否
     // 2. iframeUrl: 是否通过iframe嵌套展示内容, '以http[s]://开头': 是, '': 否
     // 提示: 如需要通过iframe嵌套展示内容, 但不通过tab打开, 请自行创建组件使用iframe处理!
-    { path: '/home', component: () => import('@/views/common/home'), name: 'home', meta: { title: '首页' } },
-    { path: '/theme', component: () => import('@/views/common/theme'), name: 'theme', meta: { title: '主题' } },
+    {
+      path: '/home',
+      component: () => import('@/views/common/home'),
+      name: 'home',
+      meta: { title: '首页' }
+    },
+    {
+      path: '/theme',
+      component: () => import('@/views/common/theme'),
+      name: 'theme',
+      meta: { title: '主题' }
+    }
   ],
   beforeEnter(to, from, next) {
-    let token = Vue.cookie.get('token')
+    // const ctx = getCurrentInstance()
+    // let token = ctx.appContext.config.globalProperties.$cookie.get('token')
+    let token = cookie.get('token')
     if (!token || !/\S/.test(token)) {
       clearLoginInfo()
       next({ name: 'login' })
@@ -44,8 +69,9 @@ const mainRoutes = {
   }
 }
 
-const router = new VueRouter({
-  mode: 'hash',
+const router = createRouter({
+  // mode: "hash",
+  history: createWebHashHistory(),
   scrollBehavior: () => ({ y: 0 }),
   isAddDynamicMenuRoutes: false, // 是否已经添加动态(菜单)路由
   routes: globalRoutes.concat(mainRoutes)
@@ -62,22 +88,24 @@ router.beforeEach((to, from, next) => {
       url: http.adornUrl('/sys/menu/nav'),
       method: 'get',
       params: http.adornParams()
-    }).then(({ data }) => {
-      if (data && data.code === 200) {
-        fnAddDynamicMenuRoutes(data.menuList)
-        router.options.isAddDynamicMenuRoutes = true
-        sessionStorage.setItem('menuList', JSON.stringify(data.menuList || '[]'))
-        sessionStorage.setItem('permissions', JSON.stringify(data.permissions || '[]'))
-        next({ ...to, replace: true })
-      } else {
-        sessionStorage.setItem('menuList', '[]')
-        sessionStorage.setItem('permissions', '[]')
-        next()
-      }
-    }).catch((e) => {
-      console.log(`%c${e} 请求菜单列表和权限失败，跳转至登录页！！`, 'color:blue')
-      router.push({ name: 'login' })
     })
+      .then(({ data }) => {
+        if (data && data.code === 200) {
+          fnAddDynamicMenuRoutes(data.menuList)
+          router.options.isAddDynamicMenuRoutes = true
+          sessionStorage.setItem('menuList', JSON.stringify(data.menuList || '[]'))
+          sessionStorage.setItem('permissions', JSON.stringify(data.permissions || '[]'))
+          next({ ...to, replace: true })
+        } else {
+          sessionStorage.setItem('menuList', '[]')
+          sessionStorage.setItem('permissions', '[]')
+          next()
+        }
+      })
+      .catch((e) => {
+        console.log(`%c${e} 请求菜单列表和权限失败，跳转至登录页！！`, 'color:blue')
+        router.push({ name: 'login' })
+      })
   }
 })
 
@@ -130,7 +158,7 @@ function fnAddDynamicMenuRoutes(menuList = [], routes = []) {
         try {
           route['component'] = _import(`modules/${menuList[i].url}`) || null
           // route['component'] = ()=>import(`@/views/modules/${menuList[i].url}.vue`) || null
-        } catch (e) { }
+        } catch (e) {}
       }
       routes.push(route)
     }
@@ -140,10 +168,8 @@ function fnAddDynamicMenuRoutes(menuList = [], routes = []) {
   } else {
     mainRoutes.name = 'main-dynamic'
     mainRoutes.children = routes
-    router.addRoutes([
-      mainRoutes,
-      { path: '*', redirect: { name: '404' } }
-    ])
+    router.addRoute(mainRoutes)
+    router.addRoute({ path: '/:pathMatch(.*)*', redirect: { name: '404' } })
     sessionStorage.setItem('dynamicMenuRoutes', JSON.stringify(mainRoutes.children || '[]'))
     console.log('\n')
     console.log('%c!<-------------------- 动态(菜单)路由 s -------------------->', 'color:blue')
