@@ -1,6 +1,6 @@
 import axios from 'axios'
 import router from '@/router'
-import qs from 'qs'
+// import qs from 'qs'
 import merge from 'lodash/merge'
 import { clearLoginInfo } from '@/utils'
 import cookie from './vue-cookie'
@@ -79,7 +79,8 @@ http.adornData = (data = {}, openDefultdata = true, contentType = 'json') => {
     t: new Date().getTime()
   }
   data = openDefultdata ? merge(defaults, data) : data
-  return contentType === 'json' ? JSON.stringify(data) : qs.stringify(data)
+  // return contentType === 'json' ? JSON.stringify(data) : qs.stringify(data)
+  return JSON.stringify(data)
 }
 
 export default http

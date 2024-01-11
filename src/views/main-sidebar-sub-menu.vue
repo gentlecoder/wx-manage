@@ -1,13 +1,14 @@
 <template>
-    <el-submenu v-if="menu.list && menu.list.length >= 1" :index="menu.menuId + ''" :popper-class="'site-sidebar--' + sidebarLayoutSkin + '-popper'">
-        <template slot="title">
+    <el-sub-menu v-if="menu.list && menu.list.length >= 1" :index="menu.menuId + ''"
+        :popper-class="'site-sidebar--' + sidebarLayoutSkin + '-popper'">
+        <template v-slot:title>
             <i class="site-sidebar__menu-icon" :class="menu.icon"></i>
             <!-- <icon-svg :name="menu.icon || ''" class="site-sidebar__menu-icon"></icon-svg> -->
             <span>{{ menu.name }}</span>
         </template>
         <sub-menu v-for="item in menu.list" :key="item.menuId" :menu="item" :dynamicMenuRoutes="dynamicMenuRoutes">
         </sub-menu>
-    </el-submenu>
+    </el-sub-menu>
     <el-menu-item v-else :index="menu.menuId + ''" @click="gotoRouteHandle(menu)">
         <!-- <icon-svg :name="menu.icon || ''" class="site-sidebar__menu-icon"></icon-svg> -->
         <i class="site-sidebar__menu-icon fa" :class="menu.icon"></i>
@@ -16,7 +17,6 @@
 </template>
 
 <script>
-import SubMenu from './main-sidebar-sub-menu'
 export default {
     name: 'sub-menu',
     props: {
@@ -30,7 +30,6 @@ export default {
         }
     },
     components: {
-        SubMenu
     },
     computed: {
         sidebarLayoutSkin: {

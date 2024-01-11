@@ -4,8 +4,6 @@
  * 建议:
  * 1. 代码中路由统一使用name属性跳转(不使用path属性)
  */
-// import Vue from 'vue'
-// import VueRouter from "vue-router";
 import http from '@/utils/httpRequest'
 import { isURL } from '@/utils/validate'
 import { clearLoginInfo } from '@/utils'
@@ -13,9 +11,6 @@ import cookie from '@/utils/vue-cookie'
 import { createRouter, createWebHashHistory } from 'vue-router'
 // import { getCurrentInstance } from 'vue'
 
-// Vue.use(VueRouter);
-
-const _import = require('./import-views')
 // 全局路由(无需嵌套上左右整体布局)
 const globalRoutes = [
   {
@@ -30,6 +25,14 @@ const globalRoutes = [
     name: 'login',
     meta: { title: '登录' }
   }
+  // {
+  //   path: '/about',
+  //   name: 'about',
+  //   // route level code-splitting
+  //   // this generates a separate chunk (About.[hash].js) for this route
+  //   // which is lazy-loaded when the route is visited.
+  //   component: () => import('../views/AboutView.vue')
+  // }
 ]
 
 // 主入口路由(需嵌套上左右整体布局)
@@ -84,6 +87,14 @@ router.beforeEach((to, from, next) => {
   if (router.options.isAddDynamicMenuRoutes || fnCurrentRouteType(to, globalRoutes) === 'global') {
     next()
   } else {
+    // router.addRoute({
+    //   path: '/about',
+    //   name: 'about',
+    //   meta: { title: '关于' },
+    //   component: () => import('../views/AboutView.vue')
+    // })
+    // router.options.isAddDynamicMenuRoutes = true
+    // next({ ...to, replace: true })
     http({
       url: http.adornUrl('/sys/menu/nav'),
       method: 'get',
@@ -92,6 +103,12 @@ router.beforeEach((to, from, next) => {
       .then(({ data }) => {
         if (data && data.code === 200) {
           fnAddDynamicMenuRoutes(data.menuList)
+          router.addRoute({
+            path: '/about',
+            name: 'about',
+            meta: { title: '关于' },
+            component: () => import('../views/AboutView.vue')
+          })
           router.options.isAddDynamicMenuRoutes = true
           sessionStorage.setItem('menuList', JSON.stringify(data.menuList || '[]'))
           sessionStorage.setItem('permissions', JSON.stringify(data.permissions || '[]'))
@@ -156,9 +173,11 @@ function fnAddDynamicMenuRoutes(menuList = [], routes = []) {
         route['meta']['iframeUrl'] = menuList[i].url
       } else {
         try {
-          route['component'] = _import(`modules/${menuList[i].url}`) || null
-          // route['component'] = ()=>import(`@/views/modules/${menuList[i].url}.vue`) || null
-        } catch (e) {}
+          // route['component'] = () => import('@/views/modules/' + menuList[i].url + '.vue') || null
+          route['component'] = () => import(`@/views/modules/${menuList[i].url}.vue`) || null
+        } catch (e) {
+          console.log(e)
+        }
       }
       routes.push(route)
     }
@@ -168,12 +187,19 @@ function fnAddDynamicMenuRoutes(menuList = [], routes = []) {
   } else {
     mainRoutes.name = 'main-dynamic'
     mainRoutes.children = routes
+    // router.addRoute({
+    //   path: '/about',
+    //   name: 'about',
+    //   meta: { title: '关于' },
+    //   component: () => import('../views/AboutView.vue')
+    // })
     router.addRoute(mainRoutes)
     router.addRoute({ path: '/:pathMatch(.*)*', redirect: { name: '404' } })
     sessionStorage.setItem('dynamicMenuRoutes', JSON.stringify(mainRoutes.children || '[]'))
     console.log('\n')
     console.log('%c!<-------------------- 动态(菜单)路由 s -------------------->', 'color:blue')
     console.log(mainRoutes.children)
+    console.log(router)
     console.log('%c!<-------------------- 动态(菜单)路由 e -------------------->', 'color:blue')
   }
 }

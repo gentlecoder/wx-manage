@@ -38,6 +38,8 @@
 
 <script>
 import { getUUID } from '@/utils'
+import cookie from '@/utils/vue-cookie'
+
 export default {
   name: 'LoginPage',
   data() {
@@ -81,7 +83,7 @@ export default {
             })
           }).then(({ data }) => {
             if (data && data.code === 200) {
-              this.$cookie.set('token', data.token)
+              cookie.set('token', data.token)
               this.$router.replace({ name: 'home' })
             } else {
               this.getCaptcha()

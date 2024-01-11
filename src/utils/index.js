@@ -1,4 +1,3 @@
-import { getCurrentInstance } from 'vue'
 import router from '@/router'
 // import store from '@/store'
 import cookie from './vue-cookie'

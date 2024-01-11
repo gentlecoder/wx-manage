@@ -18,21 +18,20 @@ module.exports = {
   chainWebpack: (config) => {
     // 移除 prefetch 插件
     // config.plugins.delete('prefetch')
-    config.resolve.alias.set('vue', '@vue/compat')
-
-    config.module
-      .rule('vue')
-      .use('vue-loader')
-      .tap((options) => {
-        return {
-          ...options,
-          compilerOptions: {
-            compatConfig: {
-              MODE: 2
-            }
-          }
-        }
-      })
+    // config.resolve.alias.set('vue', '@vue/compat')
+    // config.module
+    //   .rule('vue')
+    //   .use('vue-loader')
+    //   .tap((options) => {
+    //     return {
+    //       ...options,
+    //       compilerOptions: {
+    //         compatConfig: {
+    //           MODE: 3
+    //         }
+    //       }
+    //     }
+    //   })
   },
 
   outputDir: undefined,

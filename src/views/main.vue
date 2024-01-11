@@ -2,16 +2,30 @@
   <div class="site-wrapper" :class="{ 'site-sidebar--fold': sidebarFold }" v-loading.fullscreen.lock="loading"
     element-loading-text="拼命加载中">
     <template v-if="!loading">
-      <div>test</div>
-    </template>
-    <!-- <template v-if="!loading">
       <main-navbar />
       <main-sidebar />
       <div class="site-content__wrapper" :style="{ 'min-height': documentClientHeight + 'px' }">
         <main-content v-if="!$store.state.common.contentIsNeedRefresh" />
       </div>
-    </template> -->
+    </template>
   </div>
+  <!-- <el-menu default-active="1" class="el-menu-demo" style="" mode="horizontal" @select="() => { }">
+    <el-menu-item index="1">Processing Center</el-menu-item>
+    <el-sub-menu index="2">
+      <template #title>Workspace</template>
+      <el-menu-item index="2-1">item one</el-menu-item>
+      <el-menu-item index="2-2">item two</el-menu-item>
+      <el-menu-item index="2-3">item three</el-menu-item>
+      <el-sub-menu index="2-4">
+        <template #title>item four</template>
+        <el-menu-item index="2-4-1">item one</el-menu-item>
+        <el-menu-item index="2-4-2">item two</el-menu-item>
+        <el-menu-item index="2-4-3">item three</el-menu-item>
+      </el-sub-menu>
+    </el-sub-menu>
+    <el-menu-item index="3" disabled>Info</el-menu-item>
+    <el-menu-item index="4">Orders</el-menu-item>
+  </el-menu> -->
 </template>
 
 <script>

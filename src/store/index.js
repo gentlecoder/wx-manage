@@ -1,5 +1,4 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import { createStore } from 'vuex'
 import common from './modules/common'
 import user from './modules/user'
 import article from './modules/article'
@@ -7,9 +6,7 @@ import message from './modules/message'
 import wxUserTags from './modules/wxUserTags'
 import wxAccount from './modules/wxAccount'
 
-Vue.use(Vuex)
-
-export default new Vuex.Store({
+export default createStore({
   modules: {
     common,
     user,
@@ -18,7 +15,6 @@ export default new Vuex.Store({
     wxUserTags,
     wxAccount
   },
-  mutations: {
-  },
+  mutations: {},
   strict: true
 })
