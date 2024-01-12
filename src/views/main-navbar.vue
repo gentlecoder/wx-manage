@@ -16,11 +16,14 @@
     <el-menu-item index="3" disabled>Info</el-menu-item>
     <el-menu-item index="4">Orders</el-menu-item>
   </el-menu> -->
-  <el-menu class="site-navbar__menu" mode="horizontal">
+  <!-- <el-menu class="site-navbar__menu" mode="horizontal">
     <el-menu-item class="site-navbar__switch" index="0" @click="sidebarFold = !sidebarFold">
-      <i :class="sidebarFold ? 'el-icon-s-unfold' : 'el-icon-s-fold'"></i>
+      <el-icon>
+        <Fold v-if="!sidebarFold" />
+        <Expand v-else />
+      </el-icon>
     </el-menu-item>
-  </el-menu>
+  </el-menu> -->
   <nav class="site-navbar" :class="'site-navbar--' + navbarLayoutType">
     <div class="site-navbar__header">
       <h1 class="site-navbar__brand" @click="$router.push({ name: 'home' })">
@@ -29,15 +32,20 @@
       </h1>
     </div>
     <div class="site-navbar__body">
-      <el-menu class="site-navbar__menu" mode="horizontal">
+      <el-menu class="site-navbar__menu" mode="horizontal" :ellipsis="false">
         <el-menu-item class="site-navbar__switch" index="0" @click="sidebarFold = !sidebarFold">
-          <i :class="sidebarFold ? 'el-icon-s-unfold' : 'el-icon-s-fold'"></i>
+          <el-icon>
+            <Fold color="#fff" v-if="!sidebarFold" />
+            <Expand color="#fff" v-else />
+          </el-icon>
         </el-menu-item>
       </el-menu>
-      <el-menu class="site-navbar__menu site-navbar__menu--right" mode="horizontal">
+      <el-menu class="site-navbar__menu site-navbar__menu--right" mode="horizontal" :ellipsis="false">
         <el-menu-item index="1" @click="$router.push({ name: 'theme' })">
           <template v-slot:title>
-            <i class="el-icon-setting"></i>
+            <el-icon>
+              <Setting color="#fff" />
+            </el-icon>
           </template>
         </el-menu-item>
         <el-menu-item index="2" v-if="isAuth('wx:wxaccount:list')">

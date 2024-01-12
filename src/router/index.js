@@ -103,12 +103,12 @@ router.beforeEach((to, from, next) => {
       .then(({ data }) => {
         if (data && data.code === 200) {
           fnAddDynamicMenuRoutes(data.menuList)
-          router.addRoute({
-            path: '/about',
-            name: 'about',
-            meta: { title: '关于' },
-            component: () => import('../views/AboutView.vue')
-          })
+          // router.addRoute({
+          //   path: '/about',
+          //   name: 'about',
+          //   meta: { title: '关于' },
+          //   component: () => import('../views/AboutView.vue')
+          // })
           router.options.isAddDynamicMenuRoutes = true
           sessionStorage.setItem('menuList', JSON.stringify(data.menuList || '[]'))
           sessionStorage.setItem('permissions', JSON.stringify(data.permissions || '[]'))
@@ -174,7 +174,7 @@ function fnAddDynamicMenuRoutes(menuList = [], routes = []) {
       } else {
         try {
           // route['component'] = () => import('@/views/modules/' + menuList[i].url + '.vue') || null
-          route['component'] = () => import(`@/views/modules/${menuList[i].url}.vue`) || null
+          route['component'] = loadView(menuList[i].url)
         } catch (e) {
           console.log(e)
         }
@@ -203,4 +203,10 @@ function fnAddDynamicMenuRoutes(menuList = [], routes = []) {
     console.log('%c!<-------------------- 动态(菜单)路由 e -------------------->', 'color:blue')
   }
 }
+
+let modules = import.meta.glob('../views/**/*.vue')
+function loadView(view) {
+  return () => modules[`../views/modules/${view}.vue`]
+}
+
 export default router

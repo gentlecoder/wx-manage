@@ -11,6 +11,7 @@ import './assets/scss/index.scss'
 import httpRequest from '@/utils/httpRequest' // api: https://github.com/axios/axios
 import { isAuth } from '@/utils'
 import VueClipboard from 'vue-clipboard2'
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
 // configureCompat({
 //   MODE: 3
@@ -31,6 +32,10 @@ app.config.globalProperties.isAuth = isAuth // 权限方法
 
 moment.locale('zh-cn')
 app.config.globalProperties.$moment = moment //时间处理
+
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, component)
+}
 
 const debounce = (fn, delay) => {
   let timer = null

@@ -79,7 +79,7 @@ img {
     width: 64px;
   }
 
-  .site-navbar__body,
+  // .site-navbar__body,
   .site-content__wrapper {
     margin-left: 64px;
   }
@@ -135,9 +135,17 @@ img {
   right: 0;
   left: 0;
   z-index: 1030;
-  height: 50px;
+  // height: 50px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
   background-color: $navbar--background-color;
+  display: flex;
+
+  .el-menu-item {
+    &:hover,
+    &.is-active {
+      background-color: transparent !important;
+    }
+  }
 
   &--inverse {
     .site-navbar__body {
@@ -174,30 +182,31 @@ img {
   }
 
   &__header {
-    position: relative;
-    float: left;
-    width: 230px;
-    height: 50px;
-    overflow: hidden;
+    // position: relative;
+    // float: left;
+    // width: 230px;
+    // height: 50px;
+    // overflow: hidden;
   }
 
   &__brand {
-    display: table-cell;
-    vertical-align: middle;
+    // display: table-cell;
+    // vertical-align: middle;
     width: 230px;
-    height: 50px;
+    height: 60px;
+    line-height: 60px;
     margin: 0;
-    line-height: 50px;
     font-size: 20px;
     text-align: center;
     text-transform: uppercase;
-    white-space: nowrap;
-    color: #fff;
+    // white-space: nowrap;
+    // color: #fff;
 
     &-lg,
     &-mini {
       margin: 0 5px;
       color: #fff;
+      white-space: nowrap;
 
       &:focus,
       &:hover {
@@ -212,6 +221,7 @@ img {
   }
 
   &__switch {
+    color: #fff !important;
     font-size: 18px;
     border-bottom: none !important;
   }
@@ -224,6 +234,7 @@ img {
     }
 
     .el-dropdown-link {
+      color: #fff;
       > img {
         width: 36px;
         height: auto;
@@ -235,19 +246,23 @@ img {
   }
 
   &__body {
-    position: relative;
-    margin-left: 230px;
-    padding-right: 15px;
-    background-color: #fff;
+    // position: relative;
+    // margin-left: 230px;
+    // padding-right: 15px;
+    // background-color: #fff;
+    display: flex;
+    flex: 1;
   }
 
   &__menu {
-    float: left;
+    // float: left;
+    // width: 150px;
     background-color: transparent;
-    border-bottom: 0;
+    border-bottom: 0 !important;
 
     &--right {
-      float: right;
+      // float: right;
+      margin-left: auto;
     }
 
     a:focus,
@@ -257,8 +272,8 @@ img {
 
     .el-menu-item,
     .el-sub-menu > .el-sub-menu__title {
-      height: 50px;
-      line-height: 50px;
+      // height: 50px;
+      // line-height: 50px;
     }
 
     .el-sub-menu > .el-menu {
@@ -280,7 +295,7 @@ img {
 ------------------------------ */
 .site-sidebar {
   position: fixed;
-  top: 50px;
+  top: 60px;
   left: 0;
   bottom: 0;
   z-index: 1020;
