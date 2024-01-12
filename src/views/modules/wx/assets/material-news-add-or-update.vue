@@ -3,114 +3,68 @@
     <div class="flex">
       <div class="card-list">
         <div class="text-center margin-bottom">图文列表</div>
-        <div
-          class="card-item"
-          :class="{ selected: selectedIndex == index }"
-          v-for="(item, index) in articles"
-          :key="index"
-          @click="selectedIndex = index"
-        >
+        <div class="card-item" :class="{ selected: selectedIndex == index }" v-for="(item, index) in articles"
+          :key="index" @click="selectedIndex = index">
           <div class="text-cut-name">{{ item.title }}</div>
         </div>
-        <div
-          v-show="articles.length < 8 && !mediaId"
-          class="card-add el-icon-plus"
-          @click="addArticle()"
-        ></div>
+        <div v-show="articles.length < 8 && !mediaId" class="card-add el-icon-plus" @click="addArticle()"></div>
       </div>
-      <el-form
-        size="mini"
-        v-if="articles.length"
-        :model="articles[selectedIndex]"
-        :rules="dataRule"
-        ref="dataForm"
-        label-width="100px"
-      >
+      <el-form size="mini" v-if="articles.length" :model="articles[selectedIndex]" :rules="dataRule" ref="dataForm"
+        label-width="100px">
         <el-form-item label="标题" prop="title">
-          <el-input
-            v-model="articles[selectedIndex].title"
-            placeholder="标题"
-          ></el-input>
+          <el-input v-model="articles[selectedIndex].title" placeholder="标题"></el-input>
         </el-form-item>
         <el-form-item label="封面图" prop="thumbMediaId">
-          <el-input
-            v-model="articles[selectedIndex].thumbMediaId"
-            placeholder="封面图media_id"
-          >
-            <div slot="append" @click="assetsSelectorVisible = true">
-              从素材库中选择
-            </div>
+          <el-input v-model="articles[selectedIndex].thumbMediaId" placeholder="封面图media_id">
+            <template v-slot:append>
+              <div @click="assetsSelectorVisible = true">
+                从素材库中选择
+              </div>
+            </template>
           </el-input>
         </el-form-item>
         <el-form-item label="摘要" prop="digest">
-          <el-input
-            v-model="articles[selectedIndex].digest"
-            placeholder="摘要"
-          ></el-input>
+          <el-input v-model="articles[selectedIndex].digest" placeholder="摘要"></el-input>
         </el-form-item>
         <el-form-item label="原文地址" prop="contentSourceUrl">
-          <el-input
-            v-model="articles[selectedIndex].contentSourceUrl"
-            placeholder="阅读原文链接"
-          ></el-input>
+          <el-input v-model="articles[selectedIndex].contentSourceUrl" placeholder="阅读原文链接"></el-input>
         </el-form-item>
         <el-row>
           <el-col :span="9">
             <el-form-item label="作者" prop="author">
-              <el-input
-                v-model="articles[selectedIndex].author"
-                placeholder="作者"
-              ></el-input>
+              <el-input v-model="articles[selectedIndex].author" placeholder="作者"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="5">
             <el-form-item label="显示封面" prop="showCoverPic">
-              <el-switch
-                v-model="articles[selectedIndex].showCoverPic"
-              ></el-switch>
+              <el-switch v-model="articles[selectedIndex].showCoverPic"></el-switch>
             </el-form-item>
           </el-col>
           <el-col :span="5">
             <el-form-item label="允许评论" prop="needOpenComment">
-              <el-switch
-                v-model="articles[selectedIndex].needOpenComment"
-              ></el-switch>
+              <el-switch v-model="articles[selectedIndex].needOpenComment"></el-switch>
             </el-form-item>
           </el-col>
           <el-col :span="5">
             <el-form-item label="仅粉丝可评论" prop="onlyFansCanComment">
-              <el-switch
-                v-model="articles[selectedIndex].onlyFansCanComment"
-              ></el-switch>
+              <el-switch v-model="articles[selectedIndex].onlyFansCanComment"></el-switch>
             </el-form-item>
           </el-col>
         </el-row>
         <el-form-item label="内容" prop="content">
-          <tinymce-editor
-            ref="editor"
-            v-model="articles[selectedIndex].content"
-          >
+          <tinymce-editor ref="editor" v-model="articles[selectedIndex].content">
           </tinymce-editor>
         </el-form-item>
       </el-form>
     </div>
     <div class="dialog-footer">
       <el-button @click="$emit('hide')">取消</el-button>
-      <el-button
-        type="primary"
-        @click="dataFormSubmit()"
-        :disabled="uploading"
-        >{{
-          this.mediaId ? "修改此篇" : "全部提交（共" + articles.length + "篇）"
-        }}</el-button
-      >
+      <el-button type="primary" @click="dataFormSubmit()" :disabled="uploading">{{
+        this.mediaId ? "修改此篇" : "全部提交（共" + articles.length + "篇）"
+      }}</el-button>
     </div>
-    <assets-selector
-      v-if="assetsSelectorVisible"
-      :visible="assetsSelectorVisible"
-      selectType="image"
-      @selected="onAssetsSelect"
-    ></assets-selector>
+    <assets-selector v-if="assetsSelectorVisible" :visible="assetsSelectorVisible" selectType="image"
+      @selected="onAssetsSelect"></assets-selector>
   </div>
 </template>
 
@@ -249,6 +203,7 @@ export default {
   padding-right: 10px;
   border-right: 1px solid #eeeeee;
 }
+
 .card-item {
   margin-top: 2px;
   padding: 20px 5px;
@@ -256,9 +211,11 @@ export default {
   font-size: 12px;
   line-height: 15px;
 }
+
 .card-item.selected {
   border: 2px solid #409eff;
 }
+
 .text-cut-name {
   display: -webkit-box;
   word-wrap: break-word;
@@ -267,6 +224,7 @@ export default {
   -webkit-line-clamp: 2;
   overflow: hidden;
 }
+
 .card-add {
   margin-top: 2px;
   display: block;
@@ -276,6 +234,7 @@ export default {
   font-size: 30px;
   line-height: 50px;
 }
+
 .dialog-footer {
   margin-top: 20px;
   text-align: right;

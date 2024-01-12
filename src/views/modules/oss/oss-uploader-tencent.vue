@@ -87,7 +87,7 @@ export default {
         data: {
           url: url,
         },
-      }).then(({ data }) => {
+      }).then(() => {
         this.$emit("uploaded", url);
       });
     },
@@ -95,5 +95,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

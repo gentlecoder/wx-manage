@@ -43,8 +43,9 @@
 </template>
 
 <script>
+import { defineAsyncComponent } from 'vue'
 export default {
-  name: 'OssView',
+  // name: 'OssView',
   data() {
     return {
       dataForm: {},
@@ -59,8 +60,12 @@ export default {
     }
   },
   components: {
-    Config: () => import('./oss-config'),
-    OssUploader: () => import('./oss-uploader')
+    Config: defineAsyncComponent(() =>
+      import('./oss-config.vue')
+    ),
+    OssUploader: defineAsyncComponent(() =>
+      import('./oss-uploader.vue')
+    )
   },
   activated() {
     this.getDataList()

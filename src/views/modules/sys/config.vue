@@ -41,6 +41,7 @@
 <script>
 import AddOrUpdate from './config-add-or-update'
 export default {
+  name: 'ConfigView',
   data() {
     return {
       dataForm: {
