@@ -1,6 +1,6 @@
 <template>
-    <el-dialog title="云存储配置" :close-on-click-modal="false" :visible.sync="visible">
-        <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="120px">
+    <el-dialog title="云存储配置" :close-on-click-modal="false" v-modal:visible="visible">
+        <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter="dataFormSubmit()" label-width="120px">
             <el-form-item size="mini" label="存储类型">
                 <el-radio-group v-model="dataForm.type">
                     <el-radio :label="1">七牛</el-radio>

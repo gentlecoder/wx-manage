@@ -1,12 +1,13 @@
 <template>
-    <el-dialog :title="!dataForm.id ? '新增' : '修改'" :close-on-click-modal="false" :visible.sync="visible">
-        <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
+    <el-dialog :title="!dataForm.id ? '新增' : '修改'" :close-on-click-modal="false" v-modal:visible="visible">
+        <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter="dataFormSubmit()" label-width="80px">
             <el-form-item label="媒体文件">
                 <el-button type="primary">
                     选择文件
-                    <input type="file" style="opacity: 0;height: 100%;position: absolute;left: 0;top: 0;" @change="onFileChange" />
+                    <input type="file" style="opacity: 0;height: 100%;position: absolute;left: 0;top: 0;"
+                        @change="onFileChange" />
                 </el-button>
-                <div>{{dataForm.file.name}}</div>
+                <div>{{ dataForm.file.name }}</div>
             </el-form-item>
             <el-form-item label="媒体类型" prop="mediaType">
                 <el-select v-model="dataForm.mediaType" placeholder="媒体类型" style="width:100%">
@@ -22,7 +23,8 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
             <el-button @click="visible = false">取消</el-button>
-            <el-button type="primary" @click="dataFormSubmit()" :disabled="uploading">{{uploading?'提交中...':'提交'}}</el-button>
+            <el-button type="primary" @click="dataFormSubmit()" :disabled="uploading">{{ uploading ? '提交中...' : '提交'
+            }}</el-button>
         </span>
     </el-dialog>
 </template>
@@ -32,7 +34,7 @@ export default {
     data() {
         return {
             visible: false,
-            uploading:false,
+            uploading: false,
             dataForm: {
                 mediaId: '',
                 file: '',
@@ -51,15 +53,15 @@ export default {
     },
     methods: {
         init(fileType) {
-            if(fileType)this.dataForm.mediaType=fileType
+            if (fileType) this.dataForm.mediaType = fileType
             this.visible = true
         },
         // 表单提交
         dataFormSubmit() {
-            if(this.uploading)return
+            if (this.uploading) return
             this.$refs['dataForm'].validate((valid) => {
                 if (valid) {
-                    this.uploading=true
+                    this.uploading = true
                     console.log(this.dataForm)
                     let form = new FormData();
                     form.append('mediaId', this.dataForm.mediaId || '')
@@ -85,7 +87,7 @@ export default {
                         } else {
                             this.$message.error(data.msg)
                         }
-                        this.uploading=false
+                        this.uploading = false
                     })
                 }
             })

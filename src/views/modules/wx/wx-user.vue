@@ -59,7 +59,7 @@
       </el-table-column>
       <el-table-column fixed="right" header-align="center" align="center" width="150" label="操作">
         <template v-slot="scope">
-          <el-button type="text" size="small" @click="deleteHandle(scope.row.openid)">删除</el-button>
+          <el-button link size="small" @click="deleteHandle(scope.row.openid)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>

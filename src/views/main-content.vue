@@ -4,7 +4,10 @@
     <el-tabs v-if="$route.meta.isTab" v-model="mainTabsActiveName" :closable="true" @tab-click="selectedTabHandle"
       @tab-remove="removeTabHandle">
       <el-dropdown class="site-tabs__tools" :show-timeout="0">
-        <i class="el-icon-arrow-down el-icon--right"></i>
+        <el-icon>
+          <ArrowDown class="el-icon--right" />
+        </el-icon>
+        <!-- <i class="el-icon-arrow-down el-icon--right"></i> -->
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item @click="tabsCloseCurrentHandle">关闭当前标签页</el-dropdown-item>

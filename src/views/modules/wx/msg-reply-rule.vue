@@ -1,27 +1,29 @@
 <template>
     <div class="mod-config">
-        <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
+        <el-form :inline="true" :model="dataForm" @keyup.enter="getDataList()">
             <el-form-item>
                 <el-input v-model="dataForm.matchValue" placeholder="匹配关键词" clearable></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button @click="getDataList()">查询</el-button>
                 <el-button v-if="isAuth('wx:msgreplyrule:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
-                <el-button v-if="isAuth('wx:msgreplyrule:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
+                <el-button v-if="isAuth('wx:msgreplyrule:delete')" type="danger" @click="deleteHandle()"
+                    :disabled="dataListSelections.length <= 0">批量删除</el-button>
             </el-form-item>
         </el-form>
-        <el-table :data="dataList" border type="expand" v-loading="dataListLoading" @selection-change="selectionChangeHandle" style="width: 100%;">
+        <el-table :data="dataList" border type="expand" v-loading="dataListLoading"
+            @selection-change="selectionChangeHandle" style="width: 100%;">
             <el-table-column type="expand">
-                <template slot-scope="props">
+                <template v-slot="props">
                     <el-form label-position="left" inline class="demo-table-expand">
                         <el-form-item label="作用范围">
-                            <span>{{ props.row.appid?'当前公众号':'全部公众号' }}</span>
+                            <span>{{ props.row.appid ? '当前公众号' : '全部公众号' }}</span>
                         </el-form-item>
                         <el-form-item label="精确匹配">
-                            <span>{{ props.row.exactMatch?'是':'否' }}</span>
+                            <span>{{ props.row.exactMatch ? '是' : '否' }}</span>
                         </el-form-item>
                         <el-form-item label="是否有效">
-                            <span>{{ props.row.status?'是':'否' }}</span>
+                            <span>{{ props.row.status ? '是' : '否' }}</span>
                         </el-form-item>
                         <el-form-item label="备注说明">
                             <span>{{ props.row.desc }}</span>
@@ -41,18 +43,21 @@
             </el-table-column>
             <el-table-column prop="matchValue" header-align="center" align="center" show-overflow-tooltip label="匹配关键词">
             </el-table-column>
-            <el-table-column prop="replyType" header-align="center" align="center" :formatter="replyTypeFormat" label="消息类型">
+            <el-table-column prop="replyType" header-align="center" align="center" :formatter="replyTypeFormat"
+                label="消息类型">
             </el-table-column>
             <el-table-column prop="replyContent" header-align="center" align="center" show-overflow-tooltip label="回复内容">
             </el-table-column>
             <el-table-column fixed="right" header-align="center" align="center" width="150" label="操作">
-                <template slot-scope="scope">
-                    <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.ruleId)">修改</el-button>
-                    <el-button type="text" size="small" @click="deleteHandle(scope.row.ruleId)">删除</el-button>
+                <template v-slot="scope">
+                    <el-button link size="small" @click="addOrUpdateHandle(scope.row.ruleId)">修改</el-button>
+                    <el-button link size="small" @click="deleteHandle(scope.row.ruleId)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
-        <el-pagination @size-change="sizeChangeHandle" @current-change="currentChangeHandle" :current-page="pageIndex" :page-sizes="[10, 20, 50, 100]" :page-size="pageSize" :total="totalCount" layout="total, sizes, prev, pager, next, jumper">
+        <el-pagination @size-change="sizeChangeHandle" @current-change="currentChangeHandle" :current-page="pageIndex"
+            :page-sizes="[10, 20, 50, 100]" :page-size="pageSize" :total="totalCount"
+            layout="total, sizes, prev, pager, next, jumper">
         </el-pagination>
         <!-- 弹窗, 新增 / 修改 -->
         <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
@@ -81,7 +86,7 @@ export default {
         }
     },
     computed: mapState({
-        KefuMsgType: state=>state.message.KefuMsgType
+        KefuMsgType: state => state.message.KefuMsgType
     }),
 
     activated() {

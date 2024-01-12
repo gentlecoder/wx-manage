@@ -1,11 +1,12 @@
 <template>
-    <el-dialog :title="!dataForm.id ? '新增' : '修改'" :close-on-click-modal="false" :visible.sync="visible">
-        <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="100px">
+    <el-dialog :title="!dataForm.id ? '新增' : '修改'" :close-on-click-modal="false" v-modal:visible="visible">
+        <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter="dataFormSubmit()" label-width="100px">
             <el-form-item label="二维码类型" prop="isTemp">
                 <el-radio v-model="dataForm.isTemp" :label="true">临时</el-radio>
                 <el-radio v-model="dataForm.isTemp" :label="false">永久</el-radio>
                 <div>
-                    <a class="text-warning" v-show="!dataForm.isTemp" target="_blank" href="https://developers.weixin.qq.com/doc/offiaccount/Account_Management/Generating_a_Parametric_QR_Code.html">注意永久二维码上限10万个，且暂时无法删除旧的二维码</a>
+                    <a class="text-warning" v-show="!dataForm.isTemp" target="_blank"
+                        href="https://developers.weixin.qq.com/doc/offiaccount/Account_Management/Generating_a_Parametric_QR_Code.html">注意永久二维码上限10万个，且暂时无法删除旧的二维码</a>
                 </div>
             </el-form-item>
 
@@ -14,7 +15,7 @@
             </el-form-item>
             <el-form-item label="失效时间/秒" prop="expireSeconds" v-if="dataForm.isTemp">
                 <el-input v-model="dataForm.expireSeconds" placeholder="单位：秒，最大2592000（30天）"></el-input>
-                <div>最大30天，当前设置：<span class="text-warning">{{dataForm.expireSeconds/(24*3600)}}天</span></div>
+                <div>最大30天，当前设置：<span class="text-warning">{{ dataForm.expireSeconds / (24 * 3600) }}天</span></div>
             </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">

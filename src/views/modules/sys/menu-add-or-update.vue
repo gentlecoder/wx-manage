@@ -1,6 +1,6 @@
 <template>
-    <el-dialog :title="!dataForm.id ? '新增' : '修改'" :close-on-click-modal="false" :visible.sync="visible">
-        <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
+    <el-dialog :title="!dataForm.id ? '新增' : '修改'" :close-on-click-modal="false" v-modal:visible="visible">
+        <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter="dataFormSubmit()" label-width="80px">
             <el-form-item label="类型" prop="type">
                 <el-radio-group v-model="dataForm.type">
                     <el-radio v-for="(type, index) in dataForm.typeList" :label="index" :key="index">{{ type }}</el-radio>
@@ -11,10 +11,13 @@
             </el-form-item>
             <el-form-item label="上级菜单" prop="parentName">
                 <el-popover ref="menuListPopover" placement="bottom-start" trigger="click">
-                    <el-tree :data="menuList" :props="menuListTreeProps" node-key="menuId" ref="menuListTree" @current-change="menuListTreeCurrentChangeHandle" :default-expand-all="true" :highlight-current="true" :expand-on-click-node="false">
+                    <el-tree :data="menuList" :props="menuListTreeProps" node-key="menuId" ref="menuListTree"
+                        @current-change="menuListTreeCurrentChangeHandle" :default-expand-all="true"
+                        :highlight-current="true" :expand-on-click-node="false">
                     </el-tree>
                 </el-popover>
-                <el-input v-model="dataForm.parentName" v-popover:menuListPopover :readonly="true" placeholder="点击选择上级菜单" class="menu-list__input"></el-input>
+                <el-input v-model="dataForm.parentName" v-popover:menuListPopover :readonly="true" placeholder="点击选择上级菜单"
+                    class="menu-list__input"></el-input>
             </el-form-item>
             <el-form-item v-if="dataForm.type === 1" label="菜单路由" prop="url">
                 <el-input v-model="dataForm.url" placeholder="菜单路由"></el-input>
@@ -30,7 +33,8 @@
                     </el-col>
                     <el-col :span="12" class="icon-list__tips">
                         <el-form-item v-if="dataForm.type !== 2" label="排序号" prop="orderNum">
-                            <el-input-number v-model="dataForm.orderNum" controls-position="right" :min="0" label="排序号"></el-input-number>
+                            <el-input-number v-model="dataForm.orderNum" controls-position="right" :min="0"
+                                label="排序号"></el-input-number>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -176,30 +180,36 @@ export default {
 
 <style lang="scss">
 .mod-menu {
+
     .menu-list__input,
     .icon-list__input {
-        > .el-input__inner {
+        >.el-input__inner {
             cursor: pointer;
         }
     }
+
     &__icon-popover {
         width: 458px;
         overflow: hidden;
     }
+
     &__icon-inner {
         width: 478px;
         max-height: 258px;
         overflow-x: hidden;
         overflow-y: auto;
     }
+
     &__icon-list {
         width: 458px;
         padding: 0;
         margin: -8px 0 0 -8px;
-        > .el-button {
+
+        >.el-button {
             padding: 8px;
             margin: 8px 0 0 8px;
-            > span {
+
+            >span {
                 display: inline-block;
                 vertical-align: middle;
                 width: 18px;
@@ -208,6 +218,7 @@ export default {
             }
         }
     }
+
     .icon-list__tips {
         font-size: 18px;
         text-align: center;

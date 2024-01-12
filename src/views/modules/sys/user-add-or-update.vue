@@ -1,6 +1,6 @@
 <template>
-    <el-dialog :title="!dataForm.id ? '新增' : '修改'" :close-on-click-modal="false" :visible.sync="visible">
-        <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
+    <el-dialog :title="!dataForm.id ? '新增' : '修改'" :close-on-click-modal="false" v-modal:visible="visible">
+        <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter="dataFormSubmit()" label-width="80px">
             <el-form-item label="用户名" prop="userName">
                 <el-input v-model="dataForm.userName" placeholder="登录帐号"></el-input>
             </el-form-item>
@@ -18,7 +18,8 @@
             </el-form-item>
             <el-form-item label="角色" size="mini" prop="roleIdList">
                 <el-checkbox-group v-model="dataForm.roleIdList">
-                    <el-checkbox v-for="role in roleList" :key="role.roleId" :label="role.roleId">{{ role.roleName }}</el-checkbox>
+                    <el-checkbox v-for="role in roleList" :key="role.roleId" :label="role.roleId">{{ role.roleName
+                    }}</el-checkbox>
                 </el-checkbox-group>
             </el-form-item>
             <el-form-item label="状态" size="mini" prop="status">

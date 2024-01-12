@@ -1,6 +1,6 @@
 <template>
-    <el-dialog :title="!dataForm.id ? '新增' : '修改'" :close-on-click-modal="false" :visible.sync="visible">
-        <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
+    <el-dialog :title="!dataForm.id ? '新增' : '修改'" :close-on-click-modal="false" v-modal:visible="visible">
+        <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter="dataFormSubmit()" label-width="80px">
             <el-form-item label="角色名称" prop="roleName">
                 <el-input v-model="dataForm.roleName" placeholder="角色名称"></el-input>
             </el-form-item>
@@ -8,7 +8,8 @@
                 <el-input v-model="dataForm.remark" placeholder="备注"></el-input>
             </el-form-item>
             <el-form-item size="mini" label="授权">
-                <el-tree :data="menuList" :props="menuListTreeProps" node-key="menuId" ref="menuListTree" :default-expand-all="true" show-checkbox>
+                <el-tree :data="menuList" :props="menuListTreeProps" node-key="menuId" ref="menuListTree"
+                    :default-expand-all="true" show-checkbox>
                 </el-tree>
             </el-form-item>
         </el-form>

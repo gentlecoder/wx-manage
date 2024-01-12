@@ -11,6 +11,7 @@ import cookie from '@/utils/vue-cookie'
 import { createRouter, createWebHashHistory } from 'vue-router'
 // import { getCurrentInstance } from 'vue'
 
+const modules = import.meta.glob('../views/**/*.vue')
 // 全局路由(无需嵌套上左右整体布局)
 const globalRoutes = [
   {
@@ -174,7 +175,8 @@ function fnAddDynamicMenuRoutes(menuList = [], routes = []) {
       } else {
         try {
           // route['component'] = () => import('@/views/modules/' + menuList[i].url + '.vue') || null
-          route['component'] = loadView(menuList[i].url)
+          // route['component'] = loadView(menuList[i].url)
+          route['component'] = modules[`../views/modules/${menuList[i].url}.vue`]
         } catch (e) {
           console.log(e)
         }
@@ -202,11 +204,6 @@ function fnAddDynamicMenuRoutes(menuList = [], routes = []) {
     console.log(router)
     console.log('%c!<-------------------- 动态(菜单)路由 e -------------------->', 'color:blue')
   }
-}
-
-let modules = import.meta.glob('../views/**/*.vue')
-function loadView(view) {
-  return () => modules[`../views/modules/${view}.vue`]
 }
 
 export default router

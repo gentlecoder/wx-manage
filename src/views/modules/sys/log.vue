@@ -1,6 +1,6 @@
 <template>
     <div class="mod-log">
-        <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
+        <el-form :inline="true" :model="dataForm" @keyup.enter="getDataList()">
             <el-form-item>
                 <el-input v-model="dataForm.key" placeholder="用户名／用户操作" clearable></el-input>
             </el-form-item>
@@ -15,9 +15,11 @@
             </el-table-column>
             <el-table-column prop="operation" header-align="center" align="center" label="用户操作">
             </el-table-column>
-            <el-table-column prop="method" header-align="center" align="center" width="150" :show-overflow-tooltip="true" label="请求方法">
+            <el-table-column prop="method" header-align="center" align="center" width="150" :show-overflow-tooltip="true"
+                label="请求方法">
             </el-table-column>
-            <el-table-column prop="params" header-align="center" align="center" width="150" :show-overflow-tooltip="true" label="请求参数">
+            <el-table-column prop="params" header-align="center" align="center" width="150" :show-overflow-tooltip="true"
+                label="请求参数">
             </el-table-column>
             <el-table-column prop="time" header-align="center" align="center" label="执行时长(毫秒)">
             </el-table-column>
@@ -26,7 +28,9 @@
             <el-table-column prop="createDate" header-align="center" align="center" width="180" label="创建时间">
             </el-table-column>
         </el-table>
-        <el-pagination @size-change="sizeChangeHandle" @current-change="currentChangeHandle" :current-page="pageIndex" :page-sizes="[10, 20, 50, 100]" :page-size="pageSize" :total="totalCount" layout="total, sizes, prev, pager, next, jumper">
+        <el-pagination @size-change="sizeChangeHandle" @current-change="currentChangeHandle" :current-page="pageIndex"
+            :page-sizes="[10, 20, 50, 100]" :page-size="pageSize" :total="totalCount"
+            layout="total, sizes, prev, pager, next, jumper">
         </el-pagination>
     </div>
 </template>

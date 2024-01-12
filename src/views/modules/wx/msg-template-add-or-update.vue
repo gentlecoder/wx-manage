@@ -1,5 +1,5 @@
 <template>
-    <el-dialog title="模板配置" :close-on-click-modal="false" :visible.sync="visible">
+    <el-dialog title="模板配置" :close-on-click-modal="false" v-modal:visible="visible">
         <el-form :model="dataForm" :rules="dataRule" ref="dataForm" label-width="100px" size="mini">
             <el-form-item label="标题" prop="title">
                 <el-input v-model="dataForm.title" placeholder="标题"></el-input>
@@ -23,23 +23,25 @@
                 </el-col>
                 <el-col :span="8">
                     <el-form-item label="有效" prop="status">
-                        <el-switch v-model="dataForm.status" placeholder="是否有效" :active-value="true" :inactive-value="false"></el-switch>
+                        <el-switch v-model="dataForm.status" placeholder="是否有效" :active-value="true"
+                            :inactive-value="false"></el-switch>
                     </el-form-item>
                 </el-col>
             </el-row>
             <div class="form-group-area">
-                <el-form-item  class="form-group-title">消息填充数据，请对照模板内容填写</el-form-item>
+                <el-form-item class="form-group-title">消息填充数据，请对照模板内容填写</el-form-item>
                 <el-form-item>
                     <el-input type="textarea" disabled autosize v-model="dataForm.content" placeholder="模版"></el-input>
                 </el-form-item>
-                <el-row v-for="(item,index) in dataForm.data" :key="item.name">
+                <el-row v-for="(item, index) in dataForm.data" :key="item.name">
                     <el-col :span="16">
-                        <el-form-item :label="item.name" :prop="'data.'+index+'.value'" :rules="[{required: true,message: '填充内容不得为空', trigger: 'blur' }]">
-                            <el-input type="textarea" autosize rows="1" v-model="item.value" placeholder="填充内容"  ></el-input>
+                        <el-form-item :label="item.name" :prop="'data.' + index + '.value'"
+                            :rules="[{ required: true, message: '填充内容不得为空', trigger: 'blur' }]">
+                            <el-input type="textarea" autosize rows="1" v-model="item.value" placeholder="填充内容"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="颜色" >
+                        <el-form-item label="颜色">
                             <el-input type="color" v-model="item.color" placeholder="颜色"></el-input>
                         </el-form-item>
                     </el-col>
@@ -64,7 +66,7 @@ export default {
                 title: '',
                 data: [],
                 url: '',
-                miniprogram:{appid:'',pagePath:''},
+                miniprogram: { appid: '', pagePath: '' },
                 content: '',
                 status: true,
                 name: ''
@@ -84,7 +86,7 @@ export default {
     },
     methods: {
         init(id) {
-            console.log('init',id)
+            console.log('init', id)
             this.dataForm.id = id || 0
             this.visible = true
             this.$nextTick(() => {
@@ -97,7 +99,7 @@ export default {
                     }).then(({ data }) => {
                         if (data && data.code === 200) {
                             this.transformTemplate(data.msgTemplate)
-                        }else{
+                        } else {
                             this.$message.error(data.msg)
                         }
                     })
@@ -110,18 +112,18 @@ export default {
          * 则生成data=[{name:'first',value:'',color:''},{name:'first',value:'',color:''},{name:'first',value:'',color:''}]
          * 展示表单让管理员给对应的字段填充内容
          */
-        transformTemplate(template){
-            if(!template.miniprogram)template.miniprogram={appid:'',pagePath:''}
-            if(template.data instanceof Array) {//已经配置过了，直接读取
-                this.dataForm =  template
+        transformTemplate(template) {
+            if (!template.miniprogram) template.miniprogram = { appid: '', pagePath: '' }
+            if (template.data instanceof Array) {//已经配置过了，直接读取
+                this.dataForm = template
                 return
             }
-            
-            template.data=[]
+
+            template.data = []
             let keysArray = template.content.match(/\{\{(\w*)\.DATA\}\}/g) || [] //示例： ["{{first.DATA}}", "{{keyword1.DATA}}", "{{keyword2.DATA}}", "{{remark.DATA}}"]
-            keysArray.map(item=>{
-                name=item.replace('{{','').replace('.DATA}}','')
-                template.data.push({"name":name,"value":"",color:"#000000"})
+            keysArray.map(item => {
+                name = item.replace('{{', '').replace('.DATA}}', '')
+                template.data.push({ "name": name, "value": "", color: "#000000" })
             })
             this.dataForm = template
         },
@@ -155,11 +157,11 @@ export default {
 }
 </script>
 <style scoped>
-.form-group-area{
-    border:1px dotted gray;
+.form-group-area {
+    border: 1px dotted gray;
 }
-.form-group-title{
+
+.form-group-title {
     color: gray;
     font-size: 12px;
-}
-</style>
+}</style>

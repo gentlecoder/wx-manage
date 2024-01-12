@@ -1,5 +1,5 @@
 <template>
-    <el-dialog :title="!dataForm.id ? '新增' : '修改'" :close-on-click-modal="false" :visible.sync="visible">
+    <el-dialog :title="!dataForm.id ? '新增' : '修改'" :close-on-click-modal="false" v-modal:visible="visible">
         <el-form :model="dataForm" :rules="dataRule" ref="dataForm" label-width="80px">
             <el-form-item label="规则名称" prop="ruleName">
                 <el-input v-model="dataForm.ruleName" placeholder="规则名称"></el-input>
@@ -51,8 +51,8 @@
             <el-form-item label="回复内容" prop="replyContent">
                 <el-input v-model="dataForm.replyContent" type="textarea" :rows="5"
                     placeholder="文本、图文ID、media_id、json配置"></el-input>
-                <el-button type="text" v-show="'text' == dataForm.replyType" @click="addLink">插入链接</el-button>
-                <el-button type="text" v-show="assetsType" @click="assetsSelectorVisible = true">
+                <el-button link v-show="'text' == dataForm.replyType" @click="addLink">插入链接</el-button>
+                <el-button link v-show="assetsType" @click="assetsSelectorVisible = true">
                     从素材库中选择<span v-if="'miniprogrampage' == dataForm.replyType || 'music' == dataForm.replyType">缩略图</span>
                 </el-button>
             </el-form-item>

@@ -1,38 +1,45 @@
 <template>
     <div class="mod-config">
-        <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
+        <el-form :inline="true" :model="dataForm" @keyup.enter="getDataList()">
             <el-form-item>
                 <el-input v-model="dataForm.touser" placeholder="openid" clearable></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button @click="getDataList()">查询</el-button>
-                <el-button v-if="isAuth('wx:templatemsglog:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
+                <el-button v-if="isAuth('wx:templatemsglog:delete')" type="danger" @click="deleteHandle()"
+                    :disabled="dataListSelections.length <= 0">批量删除</el-button>
             </el-form-item>
         </el-form>
-        <el-table :data="dataList" border v-loading="dataListLoading" @selection-change="selectionChangeHandle" style="width: 100%;">
+        <el-table :data="dataList" border v-loading="dataListLoading" @selection-change="selectionChangeHandle"
+            style="width: 100%;">
             <el-table-column type="selection" header-align="center" align="center" width="50">
             </el-table-column>
             <el-table-column prop="touser" header-align="center" align="center" label="openid" width="100">
             </el-table-column>
-            <el-table-column prop="data" header-align="center" align="center" :formatter="tableJsonFormat" label="内容"  width="300">
+            <el-table-column prop="data" header-align="center" align="center" :formatter="tableJsonFormat" label="内容"
+                width="300">
             </el-table-column>
-            <el-table-column prop="sendResult" header-align="center" align="center" show-overflow-tooltip label="发送结果" width="150">
+            <el-table-column prop="sendResult" header-align="center" align="center" show-overflow-tooltip label="发送结果"
+                width="150">
             </el-table-column>
             <el-table-column prop="sendTime" header-align="center" align="center" width="100" label="发送时间">
             </el-table-column>
             <el-table-column prop="url" header-align="center" align="center" show-overflow-tooltip label="链接">
             </el-table-column>
-            <el-table-column prop="miniprogram" header-align="center" align="center" :formatter="tableJsonFormat" show-overflow-tooltip label="小程序">
+            <el-table-column prop="miniprogram" header-align="center" align="center" :formatter="tableJsonFormat"
+                show-overflow-tooltip label="小程序">
             </el-table-column>
-            <el-table-column prop="templateId" header-align="center" align="center" label="模板ID"  width="150">
+            <el-table-column prop="templateId" header-align="center" align="center" label="模板ID" width="150">
             </el-table-column>
             <el-table-column fixed="right" header-align="center" align="center" width="150" label="操作">
-                <template slot-scope="scope">
-                    <el-button type="text" size="small" @click="deleteHandle(scope.row.logId)">删除</el-button>
+                <template v-slot="scope">
+                    <el-button link size="small" @click="deleteHandle(scope.row.logId)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
-        <el-pagination @size-change="sizeChangeHandle" @current-change="currentChangeHandle" :current-page="pageIndex" :page-sizes="[10, 20, 50, 100]" :page-size="pageSize" :total="totalCount" layout="total, sizes, prev, pager, next, jumper">
+        <el-pagination @size-change="sizeChangeHandle" @current-change="currentChangeHandle" :current-page="pageIndex"
+            :page-sizes="[10, 20, 50, 100]" :page-size="pageSize" :total="totalCount"
+            layout="total, sizes, prev, pager, next, jumper">
         </el-pagination>
     </div>
 </template>
@@ -124,7 +131,7 @@ export default {
                 })
             })
         },
-        tableJsonFormat(row, column, cellValue){
+        tableJsonFormat(row, column, cellValue) {
             if (!cellValue) {
                 return '';
             }
